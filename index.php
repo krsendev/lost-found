@@ -55,7 +55,7 @@ if (!isset($_SESSION['user'])) {
         <!-- Hero Section -->
         <div class="hero">
             <!-- Placeholder for building image -->
-            <div style="width: 100%; height: 200px; background: url('./images/gambar-beranda.png') no-repeat center center; background-size: cover;"></div>
+            <div style="width: 100%; height: 200px; background: url('assets/images/gambar-beranda.png') no-repeat center center; background-size: cover;"></div>
             <!-- <div class="hero-text">
                 KEHILANGAN BARANG &<br>PENEMUAN BARANG
             </div> -->

@@ -13,6 +13,7 @@ $user = $_SESSION['user'];
     <title>Profil Saya - UMSIDA</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .post-history { margin-top: 30px; text-align: left; }
         .post-card { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee;}
@@ -34,7 +35,7 @@ $user = $_SESSION['user'];
         <div class="logo-text">PROFIL SAYA</div>
         <div class="header-icons">
              <a href="profile.php" style="text-decoration: none; color: white;">
-                <span style="font-size: 24px;">👤</span>
+                <span style="font-size: 24px;"><i class="fa fa-user" aria-hidden="true" style="color: white;"></i></span>
             </a>
         </div>
     </header>
@@ -54,7 +55,7 @@ $user = $_SESSION['user'];
                 
                 <!-- White Profile Icon -->
                 <div style="width: 100px; height: 100px; background: #ddd; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: white;">
-                    👤
+                    <i class="fa fa-user" aria-hidden="true" style="color: white;"></i>
                 </div>
                 
                 <h2 style="margin-bottom: 5px;"><?= htmlspecialchars($user['name']) ?></h2>
