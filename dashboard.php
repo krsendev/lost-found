@@ -3,8 +3,7 @@ session_start();
 require 'config/db.php';
 if (!isset($_SESSION['user'])) { header("Location: login.php"); exit; }
 
-$user_id = $_SESSION['user']['id'];
-$query = "SELECT * FROM items WHERE user_id = '$user_id' ORDER BY created_at DESC";
+$query = "SELECT items.*, users.username as pelapor_name FROM items JOIN users ON items.user_id = users.id WHERE type='lost' ORDER BY created_at DESC";
 $result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
@@ -15,6 +14,7 @@ $result = mysqli_query($conn, $query);
     <title>Laporan Masuk - UMSIDA</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -25,7 +25,7 @@ $result = mysqli_query($conn, $query);
         <div class="logo-text">LAPORAN MASUK</div>
         <div class="header-icons">
             <a href="profile.php" style="text-decoration: none;">
-                <span style="font-size: 24px; color: white;">👤</span>
+                <span style="font-size: 24px;"><i class="fa fa-user" aria-hidden="true" style="color: white;"></i></span>
             </a>
         </div>
     </header>
@@ -47,7 +47,7 @@ $result = mysqli_query($conn, $query);
                      <div style="width: 5px; height: 100px; background-color: <?= $item['type'] == 'found' ? 'green' : 'red' ?>; border-radius: 5px;"></div>
                      
                      <div style="flex-grow: 1;">
-                        <h4 style="margin-bottom: 5px; color: var(--primary-blue);">Laporan <?= ucfirst($item['type'] == 'found' ? 'Penemuan' : 'Kehilangan') ?> - <?= htmlspecialchars($item['item_name']) ?></h4>
+                        <h4 style="margin-bottom: 5px; color: var(--primary-blue);">Laporan <?= ucfirst($item['type'] == 'found' ? 'Penemuan' : 'Kehilangan') ?> - <?= htmlspecialchars($item['item_name']) ?> <small style="color: #666; font-size: 12px;">oleh <?= htmlspecialchars($item['pelapor_name'] ?? 'Unknown') ?></small></h4>
                         
                         <div style="font-size: 0.85rem; color: #555;">
                             <ul>

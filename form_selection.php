@@ -10,6 +10,7 @@ if (!isset($_SESSION['user'])) { header("Location: login.php"); exit; }
     <title>Formulir - UMSIDA</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -20,7 +21,7 @@ if (!isset($_SESSION['user'])) { header("Location: login.php"); exit; }
         <div class="logo-text">FORMULIR</div>
         <div class="header-icons">
             <a href="profile.php" style="text-decoration: none;">
-                <span style="font-size: 24px; color: white;">👤</span>
+                <span style="font-size: 24px;"><i class="fa fa-user" aria-hidden="true" style="color: white;"></i></span>
             </a>
         </div>
     </header>
