@@ -7,14 +7,13 @@ if (!isset($_SESSION['user'])) {
 }
 
 $user_id = $_SESSION['user']['id'];
-$type = $_POST['type']; // 'lost' or 'found'
+$type = $_POST['type'];
 $item_name = mysqli_real_escape_string($conn, $_POST['item_name']);
 $description = mysqli_real_escape_string($conn, $_POST['description']);
 $date = $_POST['date'];
 $location = mysqli_real_escape_string($conn, $_POST['location']);
 $phone = mysqli_real_escape_string($conn, $_POST['phone']);
 
-// Handle Image Upload
 $image_path = null;
 if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     $target_dir = "../uploads/";
@@ -30,11 +29,6 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $image_path = $new_filename;
     }
 }
-
-// Logic:
-// 'found' items go effectively to 'items' table (or Gallery directly)
-// 'lost' items go also to 'items' table with type='lost' OR 'reports' table. 
-// My plan used 'items' table for both lost/found with a type column.
 
 $query = "INSERT INTO items (user_id, item_name, description, location, found_date, contact_phone, image, type, status) 
           VALUES ('$user_id', '$item_name', '$description', '$location', '$date', '$phone', '$image_path', '$type', 'available')";
