@@ -44,5 +44,19 @@ if (mysqli_num_rows($check_nim) > 0) {
     }
 }
 
+// Check Role column
+$check_role = mysqli_query($conn, "SHOW COLUMNS FROM users LIKE 'role'");
+if (mysqli_num_rows($check_role) > 0) {
+    echo "<h2 style='color:green;'>Kolom ROLE SUDAH ADA. Tidak perlu tindakan.</h2>";
+} else {
+    echo "Kolom ROLE belum ada. Menambahkan...<br>";
+    $sql_role = "ALTER TABLE users ADD COLUMN role ENUM('admin', 'user') DEFAULT 'user' AFTER email"; // Adding after email/nim
+    if (mysqli_query($conn, $sql_role)) {
+        echo "<h2 style='color:green;'>BERHASIL! Kolom ROLE telah ditambahkan.</h2>";
+    } else {
+        echo "<h2 style='color:red;'>GAGAL menambahkan ROLE: " . mysqli_error($conn) . "</h2>";
+    }
+}
+
 echo "<br><a href='../login.php'>Kembali ke Login</a>";
 ?>

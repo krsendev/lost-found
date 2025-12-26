@@ -4,7 +4,7 @@ require 'config/db.php';
 if (!isset($_SESSION['user'])) { header("Location: login.php"); exit; }
 
 // Fetch only 'found' items
-$query = "SELECT items.*, users.username as pelapor_name FROM items JOIN users ON items.user_id = users.id WHERE type='found' ORDER BY created_at DESC";
+$query = "SELECT items.*, users.name as pelapor_name FROM items JOIN users ON items.user_id = users.id WHERE type='found' ORDER BY created_at DESC";
 $result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
