@@ -16,40 +16,46 @@ if (isset($_SESSION['user'])) {
 </head>
 <body class="auth-page">
 
-    <div class="auth-card">
-        <div class="auth-header">
-            <div style="font-size: 24px; font-weight: bold; color: var(--primary-blue); margin-bottom: 20px;">UMSIDA</div>
-            <h3>Daftar akun</h3>
+    <div class="auth-container" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+        
+        <div style="margin-bottom: 30px;">
+             <img src="assets/images/logo-umsida.png" alt="UMSIDA Logo" style="max-width: 250px; display: block;">
         </div>
 
-        <form action="process/auth.php" method="POST">
-            <input type="hidden" name="action" value="register">
-            
-            <div class="form-group">
-                <input type="text" name="nama" placeholder="Nama" required>
+        <div class="auth-card">
+            <div class="auth-header">
+                <h3>Daftar akun</h3>
             </div>
-
-            <div class="form-group">
-                <input type="text" name="nim" placeholder="NIM" required>
+    
+            <form action="process/auth.php" method="POST">
+                <input type="hidden" name="action" value="register">
+                
+                <div class="form-group">
+                    <input type="text" name="nama" placeholder="Nama" required>
+                </div>
+    
+                <div class="form-group">
+                    <input type="text" name="nim" placeholder="NIM" required>
+                </div>
+    
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+    
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" name="confirm_password" placeholder="Konfirmasi Password" required>
+                </div>
+    
+                <button type="submit" class="btn-primary" style="width: 100%;">Daftar</button>
+            </form>
+    
+            <div style="margin-top: 20px; font-size: 0.8rem;">
+                Sudah punya akun? <a href="login.php" style="color: var(--primary-blue); font-weight: bold;">Login</a>
             </div>
-
-            <div class="form-group">
-                <input type="email" name="email" placeholder="Email" required>
-            </div>
-
-            <div class="form-group">
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
-            
-            <div class="form-group">
-                <input type="password" name="confirm_password" placeholder="Konfirmasi Password" required>
-            </div>
-
-            <button type="submit" class="btn-primary" style="width: 100%;">Daftar</button>
-        </form>
-
-        <div style="margin-top: 20px; font-size: 0.8rem;">
-            Sudah punya akun? <a href="login.php" style="color: var(--primary-blue); font-weight: bold;">Login</a>
         </div>
     </div>
 

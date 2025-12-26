@@ -16,38 +16,40 @@ if (isset($_SESSION['user'])) {
 </head>
 <body class="auth-page">
 
-    <div class="auth-card">
-        <div class="auth-header">
-             <div style="margin-bottom: 20px;">
-                <img src="assets/images/logo-umsida.png" alt="UMSIDA Logo" style="max-width: 200px; display: block; margin: 0 auto;">
-             </div>
+    <div class="auth-container" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+        
+        <div style="margin-bottom: 30px;">
+            <img src="assets/images/logo-umsida.png" alt="UMSIDA Logo" style="max-width: 250px; display: block;">
         </div>
 
-        <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #000;">Lupa Kata Sandi</h2>
-        
-        <p style="font-size: 14px; margin-bottom: 20px; color: #333;">
-            Masukkan Email dan NIM Anda untuk memverifikasi bahwa ini adalah akun anda.
-        </p>
-
-        <form action="process/auth.php" method="POST">
-            <input type="hidden" name="action" value="forgot_password">
+        <div class="auth-card">
             
-            <div class="form-group" style="margin-bottom: 15px;">
-                <input type="email" name="email" placeholder="Email" required 
-                       style="background-color: #dcdcdc; color: #555; text-align: center; border-radius: 25px;">
-            </div>
-
-            <div class="form-group" style="margin-bottom: 15px;">
-                <input type="text" name="nim" placeholder="NIM" required 
-                       style="background-color: #dcdcdc; color: #555; text-align: center; border-radius: 25px;">
-            </div>
-
-            <p style="font-size: 12px; margin-bottom: 20px; color: #333;">
-                Jika anda lupa email atau NIM yang terdaftar, silahkan mengirimkan email ke <a href="mailto:admin1@senaverse.cloud" style="color: var(--primary-blue); text-decoration: none;">jokowidodo@solo.id</a>
+            <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #000;">Lupa Kata Sandi</h2>
+            
+            <p style="font-size: 14px; margin-bottom: 20px; color: #333;">
+                Masukkan Email dan NIM Anda untuk memverifikasi bahwa ini adalah akun anda.
             </p>
 
-            <button type="submit" class="btn-primary" style="width: 150px; border-radius: 25px; padding: 10px 0; font-size: 18px;">Verifikasi</button>
-        </form>
+            <form action="process/auth.php" method="POST">
+                <input type="hidden" name="action" value="forgot_password">
+                
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <input type="email" name="email" placeholder="Email" required 
+                           style="background-color: #dcdcdc; color: #555; text-align: center; border-radius: 25px;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <input type="text" name="nim" placeholder="NIM" required 
+                           style="background-color: #dcdcdc; color: #555; text-align: center; border-radius: 25px;">
+                </div>
+
+                <p style="font-size: 12px; margin-bottom: 20px; color: #333;">
+                    Jika anda lupa email atau NIM yang terdaftar, silahkan mengirimkan email ke <a href="mailto:admin1@senaverse.cloud" style="color: var(--primary-blue); text-decoration: none;">admin1@senaverse.cloud</a>
+                </p>
+
+                <button type="submit" class="btn-primary" style="width: 150px; border-radius: 25px; padding: 10px 0; font-size: 18px;">Verifikasi</button>
+            </form>
+        </div>
     </div>
 
 </body>

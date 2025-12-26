@@ -24,7 +24,7 @@ if (!isset($_SESSION['user'])) {
         
         <div class="logo-text">
             UMSIDA
-            <div style="font-size: 0.6rem; font-weight: normal; letter-spacing: 1px;">DAN PENCARIAN BARANG</div>
+            <!-- <div style="font-size: 0.6rem; font-weight: normal; letter-spacing: 1px;">DAN PENCARIAN BARANG</div> -->
         </div>
 
         <div class="header-icons">
