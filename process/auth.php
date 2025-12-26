@@ -31,7 +31,7 @@ if ($action === 'register') {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Insert user with NIM
-    $query = "INSERT INTO users (username, email, nim, password) VALUES ('$nama', '$email', '$nim', '$hashed_password')";
+    $query = "INSERT INTO users (name, email, nim, password) VALUES ('$nama', '$email', '$nim', '$hashed_password')";
     if (mysqli_query($conn, $query)) {
         echo "<script>alert('Pendaftaran berhasil! Silakan login.'); window.location='../login.php';</script>";
     } else {
@@ -43,7 +43,8 @@ if ($action === 'register') {
     $password = $_POST['password'];
 
     // Check Email OR NIM
-    // Also checking username just in case, but request specifically mentioned Email/NIM
+    // Also checking name just in case? No, login is usually email/nim.
+    // Ensure we select * so we get 'name'
     $query = "SELECT * FROM users WHERE email = '$input' OR nim = '$input'";
     $result = mysqli_query($conn, $query);
     if (!$result) { die("Database Error: " . mysqli_error($conn)); }
@@ -53,7 +54,7 @@ if ($action === 'register') {
         if (password_verify($password, $user['password'])) {
             $_SESSION['user'] = [
                 'id' => $user['id'],
-                'name' => $user['username'],
+                'name' => $user['name'], // Fixed: username -> name
                 'email' => $user['email'],
                 'nim' => $user['nim'], // Add NIM to session
                 'role' => $user['role'],
