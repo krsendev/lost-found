@@ -27,13 +27,14 @@ body {
 .header {
     background-color: var(--primary-blue);
     color: var(--white);
-    padding: 1rem;
+    padding: 0.8rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .logo-container {
@@ -42,15 +43,69 @@ body {
     gap: 10px;
 }
 
-.logo-text {
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-transform: uppercase;
+/* Mobile Only Hamburger */
+.hamburger {
+    display: block;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.logo-text img {
+    height: 40px;
+    width: auto;
+    transition: transform 0.3s;
+}
+
+.logo-text img:hover {
+    transform: scale(1.05);
 }
 
 .header-icons {
     display: flex;
     gap: 15px;
+    align-items: center;
+}
+
+/* Desktop Navbar */
+.desktop-nav {
+    display: none;
+    /* Hidden by default (mobile) */
+}
+
+.desktop-nav a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s, border-bottom 0.3s;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active {
+    color: var(--white);
+    border-bottom: 2px solid var(--accent-orange);
+}
+
+/* Media Query for Desktop */
+@media (min-width: 769px) {
+    .hamburger {
+        display: none;
+        /* Hide hamburger on desktop */
+    }
+
+    .desktop-nav {
+        display: flex;
+        /* Show nav on desktop */
+        align-items: center;
+    }
+
+    .header {
+        justify-content: space-between;
+        /* Logo - Nav - Profile */
+    }
 }
 
 /* Sidebar */

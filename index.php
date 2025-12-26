@@ -18,13 +18,19 @@ if (!isset($_SESSION['user'])) {
 </head>
 <body>
     <header class="header">
-        <div class="logo-container" onclick="openNav()">
-            <span style="font-size: 30px; cursor: pointer;">&#9776;</span> <!-- Hamburger -->
+        <div class="logo-container">
+            <span class="hamburger" onclick="openNav()">&#9776;</span>
+            <div class="logo-text">
+                <img src="assets/images/logo-umsida.png" alt="UMSIDA">
+            </div>
         </div>
-        
-        <div class="logo-text">
-            <img src="assets/images/logo-umsida.png" alt="UMSIDA" style="max-height: 50px;">
-        </div>
+
+        <nav class="desktop-nav">
+             <a href="index.php" class="active">Beranda</a>
+             <a href="gallery.php">Galeri Temuan</a>
+             <a href="dashboard.php">Laporan Kehilangan</a>
+             <a href="form_selection.php">Formulir</a>
+        </nav>
 
         <div class="header-icons">
             <a href="profile.php" style="text-decoration: none;">

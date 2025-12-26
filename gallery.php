@@ -62,10 +62,20 @@ $result = mysqli_query($conn, $query);
 <body>
 
     <header class="header">
-        <div class="logo-container" onclick="openNav()">
-            <span style="font-size: 30px; cursor: pointer;">&#9776;</span>
+        <div class="logo-container">
+            <span class="hamburger" onclick="openNav()">&#9776;</span>
+            <div class="logo-text">
+                <img src="assets/images/logo-umsida.png" alt="UMSIDA">
+            </div>
         </div>
-        <div class="logo-text">GALERI TEMUAN</div>
+
+        <nav class="desktop-nav">
+             <a href="index.php">Beranda</a>
+             <a href="gallery.php" class="active">Galeri Temuan</a>
+             <a href="dashboard.php">Laporan Kehilangan</a>
+             <a href="form_selection.php">Formulir</a>
+        </nav>
+
         <div class="header-icons">
             <a href="profile.php" style="text-decoration: none;">
                 <span style="font-size: 24px;"><i class="fa fa-user" aria-hidden="true" style="color: white;"></i></span>
