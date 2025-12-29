@@ -11,16 +11,18 @@ function sendOTP($to, $subject, $message) {
 
     try {
         //Server settings
+        $mail->SMTPDebug  = 2; // Enable verbose debug output
+        $mail->Debugoutput = 'html';
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com'; // Adjust as needed
+        $mail->Host       = 'mail.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'your_email@gmail.com'; // TO BE REPLACED BY USER
-        $mail->Password   = 'your_app_password';    // TO BE REPLACED BY USER
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+        $mail->Username   = 'user@gmail.com';
+        $mail->Password   = 'password_email_anda'; // Pastikan ini sudah diisi benar!
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Coba STARTTLS dulu
+        $mail->Port       = 587; // Port 587 biasanya lebih aman dari blokir ISP
 
         //Recipients
-        $mail->setFrom('no-reply@umsida.ac.id', 'Sistem Barang Hilang');
+        $mail->setFrom('user@gmail.com', 'Sistem Barang Hilang');
         $mail->addAddress($to);
 
         //Content
@@ -31,6 +33,7 @@ function sendOTP($to, $subject, $message) {
         $mail->send();
         return true;
     } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         return false;
     }
 }
