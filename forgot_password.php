@@ -44,7 +44,7 @@ if (isset($_SESSION['user'])) {
                 </div>
 
                 <p style="font-size: 12px; margin-bottom: 20px; color: #333;">
-                    Jika anda lupa email atau NIM yang terdaftar, silahkan mengirimkan email ke <a href="mailto:admin1@senaverse.cloud" style="color: var(--primary-blue); text-decoration: none;">admin1@senaverse.cloud</a>
+                    Jika anda lupa email atau NIM yang terdaftar, silahkan mengirimkan email ke <a href="mailto:admin@senaverse.cloud" style="color: var(--primary-blue); text-decoration: none;">admin@senaverse.cloud</a>
                 </p>
 
                 <button type="submit" class="btn-primary" style="width: 150px; border-radius: 25px; padding: 10px 0; font-size: 18px;">Verifikasi</button>

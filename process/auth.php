@@ -37,7 +37,7 @@ if ($action === 'register') {
     
     if (mysqli_query($conn, $query)) {
         // Send OTP
-        $subject = "Kode Verifikasi Registrasi - UMSIDA Barang Hilang";
+        $subject = "Kode Verifikasi Registrasi - Lost & Found";
         $message = "Halo $nama,<br><br>Kode verifikasi (OTP) Anda adalah: <b>$otp_code</b>.<br>Kode ini berlaku selama 15 menit.";
         
         if (sendOTP($email, $subject, $message)) {
@@ -101,7 +101,7 @@ if ($action === 'register') {
         $updateQuery = "UPDATE users SET otp_code = '$otp_code', otp_expiry = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE email = '$email'";
         mysqli_query($conn, $updateQuery);
         
-        $subject = "Kode Reset Password - UMSIDA Barang Hilang";
+        $subject = "Kode Reset Password - Lost & Found";
         $message = "Halo " . $user['name'] . ",<br><br>Kode verifikasi (OTP) untuk reset password adalah: <b>$otp_code</b>.<br>Kode ini berlaku selama 15 menit.";
         
         if (sendOTP($email, $subject, $message)) {
