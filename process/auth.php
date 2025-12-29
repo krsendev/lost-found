@@ -4,47 +4,57 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require '../config/db.php';
+require '../config/mail.php';
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
 if ($action === 'register') {
     $nama = mysqli_real_escape_string($conn, $_POST['nama']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $nim = mysqli_real_escape_string($conn, $_POST['nim']); // New NIM input
+    $nim = mysqli_real_escape_string($conn, $_POST['nim']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Basic validation
     if ($password !== $confirm_password) {
         echo "<script>alert('Password tidak cocok!'); window.location='../register.php';</script>";
         exit;
     }
 
-    // Check email OR NIM uniqueness
     $check = mysqli_query($conn, "SELECT id FROM users WHERE email = '$email' OR nim = '$nim'");
     if (mysqli_num_rows($check) > 0) {
         echo "<script>alert('Email atau NIM sudah terdaftar!'); window.location='../register.php';</script>";
         exit;
     }
 
-    // Hash password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    
+    // Generate OTP
+    $otp_code = sprintf("%06d", mt_rand(1, 999999));
+    $otp_expiry = date("Y-m-d H:i:s", strtotime("+15 minutes"));
 
-    // Insert user with NIM
-    $query = "INSERT INTO users (name, email, nim, password) VALUES ('$nama', '$email', '$nim', '$hashed_password')";
+    // Insert with is_verified = 0
+    $query = "INSERT INTO users (name, email, nim, password, otp_code, otp_expiry, is_verified) 
+              VALUES ('$nama', '$email', '$nim', '$hashed_password', '$otp_code', '$otp_expiry', 0)";
+    
     if (mysqli_query($conn, $query)) {
-        echo "<script>alert('Pendaftaran berhasil! Silakan login.'); window.location='../login.php';</script>";
+        // Send OTP
+        $subject = "Kode Verifikasi Registrasi - UMSIDA Barang Hilang";
+        $message = "Halo $nama,<br><br>Kode verifikasi (OTP) Anda adalah: <b>$otp_code</b>.<br>Kode ini berlaku selama 15 menit.";
+        
+        if (sendOTP($email, $subject, $message)) {
+            $_SESSION['pending_email'] = $email; // Store email for verification
+            echo "<script>alert('Registrasi berhasil! Silakan cek email untuk kode OTP.'); window.location='../otp_verification.php';</script>";
+        } else {
+            echo "<script>alert('Gagal mengirim OTP. Silakan hubungi admin.'); window.location='../register.php';</script>";
+        }
     } else {
         echo "<script>alert('Error: " . mysqli_error($conn) . "'); window.location='../register.php';</script>";
     }
 
 } elseif ($action === 'login') {
-    $input = mysqli_real_escape_string($conn, $_POST['email']); // Can be email or NIM
+    $input = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
-    // Check Email OR NIM
-    // Also checking name just in case? No, login is usually email/nim.
-    // Ensure we select * so we get 'name'
     $query = "SELECT * FROM users WHERE email = '$input' OR nim = '$input'";
     $result = mysqli_query($conn, $query);
     if (!$result) { die("Database Error: " . mysqli_error($conn)); }
@@ -52,11 +62,19 @@ if ($action === 'register') {
     if (mysqli_num_rows($result) === 1) {
         $user = mysqli_fetch_assoc($result);
         if (password_verify($password, $user['password'])) {
+            
+            // Check verification status
+            if ($user['is_verified'] == 0) {
+                 echo "<script>alert('Akun belum diverifikasi! Silakan cek email Anda atau login ulang untuk minta OTP baru.'); window.location='../login.php';</script>";
+                 // Logic to resend OTP could be added here or via a link
+                 exit;
+            }
+
             $_SESSION['user'] = [
                 'id' => $user['id'],
-                'name' => $user['name'], // Fixed: username -> name
+                'name' => $user['name'],
                 'email' => $user['email'],
-                'nim' => $user['nim'], // Add NIM to session
+                'nim' => $user['nim'],
                 'role' => $user['role'],
                 'profile_image' => $user['profile_image'] ?? null
             ];
@@ -72,18 +90,67 @@ if ($action === 'register') {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $nim = mysqli_real_escape_string($conn, $_POST['nim']);
     
-    // Check if user exists with BOTH Email AND NIM
-    $query = "SELECT id, email FROM users WHERE email = '$email' AND nim = '$nim'";
+    $query = "SELECT id, name FROM users WHERE email = '$email' AND nim = '$nim'";
     $check = mysqli_query($conn, $query);
     
     if (mysqli_num_rows($check) > 0) {
-        // Valid credentials -> Allow reset
-        $_SESSION['reset_email'] = $email;
-        $_SESSION['reset_verified'] = true; // Directly verified
+        $user = mysqli_fetch_assoc($check);
         
-        echo "<script>window.location='../reset_password.php';</script>";
+        // Generate OTP
+        $otp_code = sprintf("%06d", mt_rand(1, 999999));
+        $otp_expiry = date("Y-m-d H:i:s", strtotime("+15 minutes"));
+        
+        $updateQuery = "UPDATE users SET otp_code = '$otp_code', otp_expiry = '$otp_expiry' WHERE email = '$email'";
+        mysqli_query($conn, $updateQuery);
+        
+        $subject = "Kode Reset Password - UMSIDA Barang Hilang";
+        $message = "Halo " . $user['name'] . ",<br><br>Kode verifikasi (OTP) untuk reset password adalah: <b>$otp_code</b>.<br>Kode ini berlaku selama 15 menit.";
+        
+        if (sendOTP($email, $subject, $message)) {
+             $_SESSION['pending_email'] = $email;
+             $_SESSION['is_reset_flow'] = true; // Mark as reset flow
+             echo "<script>alert('Kode OTP telah dikirim ke email Anda.'); window.location='../otp_verification.php';</script>";
+        } else {
+             echo "<script>alert('Gagal mengirim OTP.'); window.location='../forgot_password.php';</script>";
+        }
+
     } else {
         echo "<script>alert('Kombinasi Email dan NIM tidak ditemukan!'); window.location='../forgot_password.php';</script>";
+    }
+
+} elseif ($action === 'verify_otp') {
+    $otp_code = mysqli_real_escape_string($conn, $_POST['otp_code']);
+    $email = $_SESSION['pending_email'] ?? '';
+    
+    if (empty($email)) {
+        header("Location: ../login.php");
+        exit;
+    }
+    
+    $query = "SELECT * FROM users WHERE email = '$email' AND otp_code = '$otp_code' AND otp_expiry > NOW()";
+    $result = mysqli_query($conn, $query);
+    
+    if (mysqli_num_rows($result) > 0) {
+        // OTP Valid
+        $user = mysqli_fetch_assoc($result);
+        
+        // Clear OTP
+        mysqli_query($conn, "UPDATE users SET otp_code = NULL, otp_expiry = NULL, is_verified = 1 WHERE id = " . $user['id']);
+        
+        if (isset($_SESSION['is_reset_flow']) && $_SESSION['is_reset_flow'] === true) {
+            // Flow Reset Password
+            $_SESSION['reset_email'] = $email;
+            $_SESSION['reset_verified'] = true;
+            unset($_SESSION['is_reset_flow']);
+            unset($_SESSION['pending_email']);
+            header("Location: ../reset_password.php");
+        } else {
+            // Flow Register -> Login
+            unset($_SESSION['pending_email']);
+            echo "<script>alert('Verifikasi berhasil! Silakan login.'); window.location='../login.php';</script>";
+        }
+    } else {
+        echo "<script>alert('Kode OTP salah atau sudah kadaluarsa!'); window.location='../otp_verification.php';</script>";
     }
 
 } elseif ($action === 'reset_password') {
@@ -117,7 +184,6 @@ if ($action === 'register') {
     header("Location: ../login.php");
 
 } else {
-    // If accessed directly without action
     header("Location: ../login.php");
 }
 ?>
