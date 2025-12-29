@@ -30,11 +30,10 @@ if ($action === 'register') {
     
     // Generate OTP
     $otp_code = sprintf("%06d", mt_rand(1, 999999));
-    $otp_expiry = date("Y-m-d H:i:s", strtotime("+15 minutes"));
-
-    // Insert with is_verified = 0
+    
+    // Insert with is_verified = 0, otp_expiry calculated by MySQL
     $query = "INSERT INTO users (name, email, nim, password, otp_code, otp_expiry, is_verified) 
-              VALUES ('$nama', '$email', '$nim', '$hashed_password', '$otp_code', '$otp_expiry', 0)";
+              VALUES ('$nama', '$email', '$nim', '$hashed_password', '$otp_code', DATE_ADD(NOW(), INTERVAL 15 MINUTE), 0)";
     
     if (mysqli_query($conn, $query)) {
         // Send OTP
@@ -98,9 +97,8 @@ if ($action === 'register') {
         
         // Generate OTP
         $otp_code = sprintf("%06d", mt_rand(1, 999999));
-        $otp_expiry = date("Y-m-d H:i:s", strtotime("+15 minutes"));
         
-        $updateQuery = "UPDATE users SET otp_code = '$otp_code', otp_expiry = '$otp_expiry' WHERE email = '$email'";
+        $updateQuery = "UPDATE users SET otp_code = '$otp_code', otp_expiry = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE email = '$email'";
         mysqli_query($conn, $updateQuery);
         
         $subject = "Kode Reset Password - UMSIDA Barang Hilang";
