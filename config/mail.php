@@ -11,8 +11,8 @@ function sendOTP($to, $subject, $message) {
 
     try {
         //Server settings
-        $mail->SMTPDebug  = 2; // Enable verbose debug output
-        $mail->Debugoutput = 'html';
+        //Server settings
+        $mail->SMTPDebug  = 0; // Disable verbose debug output
         $mail->isSMTP();
         $mail->Host       = 'mail.gmail.com';
         $mail->SMTPAuth   = true;
@@ -33,7 +33,6 @@ function sendOTP($to, $subject, $message) {
         $mail->send();
         return true;
     } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         return false;
     }
 }
