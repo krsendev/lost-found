@@ -53,7 +53,7 @@ if ($action === 'register') {
 
     $query = "SELECT * FROM users WHERE email = '$input' OR nim = '$input'";
     $result = mysqli_query($conn, $query);
-    if (!$result) { die("Database Error: " . mysqli_error($conn)); }
+    if (!$result) { die("Error Database: " . mysqli_error($conn)); }
 
     if (mysqli_num_rows($result) === 1) {
         $user = mysqli_fetch_assoc($result);

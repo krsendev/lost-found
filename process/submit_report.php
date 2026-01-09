@@ -23,7 +23,7 @@ $message = "";
 
 if (!isset($_FILES['image'])) {
     if (empty($_POST) && $_SERVER['CONTENT_LENGTH'] > 0) {
-        $message .= "POST data empty! Possible reasons: post_max_size exceeded. ";
+        $message .= "Data POST kosong! Kemungkinan ukuran file melebihi batas post_max_size server. ";
     }
 } else {
     if ($_FILES['image']['error'] == 0) {
@@ -31,7 +31,7 @@ if (!isset($_FILES['image'])) {
         
         if (!file_exists($target_dir)) {
             if (!mkdir($target_dir, 0777, true)) {
-                die("CRITICAL ERROR: Failed to create uploads directory at $target_dir. Check server permissions."); 
+                die("ERROR KRITIS: Gagal membuat direktori uploads di $target_dir. Periksa izin server."); 
             }
         }
         
@@ -45,22 +45,22 @@ if (!isset($_FILES['image'])) {
              if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
                  $image_path = $new_filename;
              } else {
-                 die("UPLOAD ERROR: Failed to move uploaded file to destination. Check directory permissions for 'uploads/'.");
+                 die("ERROR UPLOAD: Gagal memindahkan file yang diupload. Periksa izin direktori 'uploads/'.");
              }
         } else {
-            die("VALIDATION ERROR: File format not allowed. Only JPG, JPEG, PNG, GIF, WEBP.");
+            die("ERROR VALIDASI: Format file tidak diizinkan. Hanya JPG, JPEG, PNG, GIF, WEBP.");
         }
     } elseif ($_FILES['image']['error'] != 4) { 
         $uploadErrors = array(
-            1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-            2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-            3 => 'The uploaded file was only partially uploaded',
-            6 => 'Missing a temporary folder',
-            7 => 'Failed to write file to disk.',
-            8 => 'A PHP extension stopped the file upload.',
+            1 => 'Ukuran file terlalu besar (melebihi batas server).',
+            2 => 'Ukuran file terlalu besar (melebihi batas form).',
+            3 => 'File hanya terupload sebagian, silakan coba lagi.',
+            6 => 'Terjadi kesalahan sistem (folder sementara hilang). Hubungi admin.',
+            7 => 'Gagal menyimpan file. Penyimpanan server mungkin penuh.',
+            8 => 'Upload dihentikan oleh sistem. Hubungi admin.',
         );
         $errCode = $_FILES['image']['error'];
-        die("UPLOAD ERROR (" . $errCode . "): " . ($uploadErrors[$errCode] ?? 'Unknown error'));
+        die("ERROR UPLOAD (" . $errCode . "): " . ($uploadErrors[$errCode] ?? 'Error tidak diketahui'));
         
     }
 }
@@ -71,7 +71,7 @@ $query = "INSERT INTO items (user_id, item_name, description, location, found_da
 if (mysqli_query($conn, $query)) {
     echo "<script>alert('Laporan berhasil dikirim! " . $message . "'); window.location='../index.php';</script>";
 } else {
-    echo "<h1>Database Error</h1>";
+    echo "<h1>Error Database</h1>";
     echo "Query: " . $query . "<br>";
     echo "Error: " . mysqli_error($conn);
     exit;

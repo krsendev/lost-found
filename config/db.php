@@ -7,6 +7,6 @@ $db   = 'barang_hilang';
 $conn = mysqli_connect($host, $user, $pass, $db);
 
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    die("Koneksi gagal: " . mysqli_connect_error());
 }
 ?>
