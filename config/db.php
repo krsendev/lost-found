@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';
 $user = 'root';
-$pass = ''; // Default XAMPP password
+$pass = '';
 $db   = 'barang_hilang';
 
 $conn = mysqli_connect($host, $user, $pass, $db);

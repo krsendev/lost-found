@@ -11,36 +11,30 @@ if (!isset($_SESSION['user'])) {
 }
 
 $user_id = $_SESSION['user']['id'];
-$type = $_POST['type']; // 'lost' or 'found'
+$type = $_POST['type'];
 $item_name = mysqli_real_escape_string($conn, $_POST['item_name']);
 $description = mysqli_real_escape_string($conn, $_POST['description']);
 $date = $_POST['date'];
 $location = mysqli_real_escape_string($conn, $_POST['location']);
 $phone = mysqli_real_escape_string($conn, $_POST['phone']);
 
-// Handle Image Upload
 $image_path = null;
 $message = "";
 
-// Debug: Check if file is detected
 if (!isset($_FILES['image'])) {
-    // If not set, check max_post_size. If post is too big, $_FILES and $_POST might be empty.
     if (empty($_POST) && $_SERVER['CONTENT_LENGTH'] > 0) {
         $message .= "POST data empty! Possible reasons: post_max_size exceeded. ";
     }
 } else {
-    // File upload logic
     if ($_FILES['image']['error'] == 0) {
         $target_dir = "../uploads/";
         
-        // Ensure directory exists with correct permissions
         if (!file_exists($target_dir)) {
             if (!mkdir($target_dir, 0777, true)) {
                 die("CRITICAL ERROR: Failed to create uploads directory at $target_dir. Check server permissions."); 
             }
         }
         
-        // Validate Extension
         $file_extension = strtolower(pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION));
         $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         
@@ -50,14 +44,13 @@ if (!isset($_FILES['image'])) {
              
              if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
                  $image_path = $new_filename;
-                 // $message .= "Image uploaded successfully: $new_filename. ";
              } else {
                  die("UPLOAD ERROR: Failed to move uploaded file to destination. Check directory permissions for 'uploads/'.");
              }
         } else {
             die("VALIDATION ERROR: File format not allowed. Only JPG, JPEG, PNG, GIF, WEBP.");
         }
-    } elseif ($_FILES['image']['error'] != 4) { // 4 means no file selected
+    } elseif ($_FILES['image']['error'] != 4) { 
         $uploadErrors = array(
             1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
             2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
@@ -72,7 +65,6 @@ if (!isset($_FILES['image'])) {
     }
 }
 
-// Database Insert
 $query = "INSERT INTO items (user_id, item_name, description, location, found_date, contact_phone, image, type, status) 
           VALUES ('$user_id', '$item_name', '$description', '$location', '$date', '$phone', " . ($image_path ? "'$image_path'" : "NULL") . ", '$type', 'available')";
 

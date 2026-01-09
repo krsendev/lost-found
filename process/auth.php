@@ -28,20 +28,17 @@ if ($action === 'register') {
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     
-    // Generate OTP
     $otp_code = sprintf("%06d", mt_rand(1, 999999));
     
-    // Insert with is_verified = 0, otp_expiry calculated by MySQL
     $query = "INSERT INTO users (name, email, nim, password, otp_code, otp_expiry, is_verified) 
               VALUES ('$nama', '$email', '$nim', '$hashed_password', '$otp_code', DATE_ADD(NOW(), INTERVAL 15 MINUTE), 0)";
     
     if (mysqli_query($conn, $query)) {
-        // Send OTP
         $subject = "Kode Verifikasi Registrasi - Lost & Found";
         $message = "Halo $nama,<br><br>Kode verifikasi (OTP) Anda adalah: <b>$otp_code</b>.<br>Kode ini berlaku selama 15 menit.";
         
         if (sendOTP($email, $subject, $message)) {
-            $_SESSION['pending_email'] = $email; // Store email for verification
+            $_SESSION['pending_email'] = $email;
             echo "<script>alert('Registrasi berhasil! Silakan cek email untuk kode OTP.'); window.location='../otp_verification.php';</script>";
         } else {
             echo "<script>alert('Gagal mengirim OTP. Silakan hubungi admin.'); window.location='../register.php';</script>";
@@ -62,10 +59,8 @@ if ($action === 'register') {
         $user = mysqli_fetch_assoc($result);
         if (password_verify($password, $user['password'])) {
             
-            // Check verification status
             if ($user['is_verified'] == 0) {
                  echo "<script>alert('Akun belum diverifikasi! Silakan cek email Anda atau login ulang untuk minta OTP baru.'); window.location='../login.php';</script>";
-                 // Logic to resend OTP could be added here or via a link
                  exit;
             }
 
@@ -95,7 +90,6 @@ if ($action === 'register') {
     if (mysqli_num_rows($check) > 0) {
         $user = mysqli_fetch_assoc($check);
         
-        // Generate OTP
         $otp_code = sprintf("%06d", mt_rand(1, 999999));
         
         $updateQuery = "UPDATE users SET otp_code = '$otp_code', otp_expiry = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE email = '$email'";
@@ -106,7 +100,7 @@ if ($action === 'register') {
         
         if (sendOTP($email, $subject, $message)) {
              $_SESSION['pending_email'] = $email;
-             $_SESSION['is_reset_flow'] = true; // Mark as reset flow
+             $_SESSION['is_reset_flow'] = true;
              echo "<script>alert('Kode OTP telah dikirim ke email Anda.'); window.location='../otp_verification.php';</script>";
         } else {
              echo "<script>alert('Gagal mengirim OTP.'); window.location='../forgot_password.php';</script>";
@@ -129,21 +123,17 @@ if ($action === 'register') {
     $result = mysqli_query($conn, $query);
     
     if (mysqli_num_rows($result) > 0) {
-        // OTP Valid
         $user = mysqli_fetch_assoc($result);
         
-        // Clear OTP
         mysqli_query($conn, "UPDATE users SET otp_code = NULL, otp_expiry = NULL, is_verified = 1 WHERE id = " . $user['id']);
         
         if (isset($_SESSION['is_reset_flow']) && $_SESSION['is_reset_flow'] === true) {
-            // Flow Reset Password
             $_SESSION['reset_email'] = $email;
             $_SESSION['reset_verified'] = true;
             unset($_SESSION['is_reset_flow']);
             unset($_SESSION['pending_email']);
             header("Location: ../reset_password.php");
         } else {
-            // Flow Register -> Login
             unset($_SESSION['pending_email']);
             echo "<script>alert('Verifikasi berhasil! Silakan login.'); window.location='../login.php';</script>";
         }

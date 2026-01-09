@@ -118,7 +118,6 @@ $result = mysqli_query($conn, $query);
             <?php endif; ?>
         </div>
 
-        <!-- Image Viewer Modal -->
         <div id="imgModal" style="display: none; position: fixed; z-index: 3000; padding: 20px; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center;">
             <span onclick="document.getElementById('imgModal').style.display='none'" style="position: absolute; top: 20px; right: 30px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer;">&times;</span>
             <img class="modal-content" id="imgFull" style="margin: auto; display: block; max-width: 90%; max-height: 90%; border-radius: 10px;">
@@ -132,7 +131,6 @@ $result = mysqli_query($conn, $query);
                 modalImg.src = src;
             }
             
-            // Close modal on outside click
             window.onclick = function(event) {
                 var modal = document.getElementById("imgModal");
                 if (event.target == modal) {

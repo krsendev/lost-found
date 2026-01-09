@@ -3,7 +3,7 @@ session_start();
 require 'config/db.php';
 if (!isset($_SESSION['user'])) { header("Location: login.php"); exit; }
 
-$user = $_SESSION['user']; 
+$user = $_SESSION['user'];
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -63,7 +63,6 @@ $user = $_SESSION['user'];
         <div class="form-container">
             <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
                 
-                <!-- White Profile Icon -->
                 <div style="width: 100px; height: 100px; background: #ddd; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: white;">
                     <i class="fa fa-user" aria-hidden="true" style="color: white;"></i>
                 </div>
@@ -83,7 +82,6 @@ $user = $_SESSION['user'];
                     <button class="btn-primary" style="background-color: #ff6b6b; margin-top: 10px;">Logout</button>
                 </a>
             
-                <!-- Riwayat Postingan -->
                 <div class="post-history">
                     <h3>Riwayat Postingan</h3>
                     <?php

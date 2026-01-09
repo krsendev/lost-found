@@ -3,7 +3,6 @@ session_start();
 require 'config/db.php';
 if (!isset($_SESSION['user'])) { header("Location: login.php"); exit; }
 
-// Fetch only 'found' items
 $query = "SELECT items.*, users.name as pelapor_name FROM items JOIN users ON items.user_id = users.id WHERE type='found' ORDER BY created_at DESC";
 $result = mysqli_query($conn, $query);
 ?>
@@ -17,7 +16,6 @@ $result = mysqli_query($conn, $query);
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Modal Styles */
         .modal {
             display: none; 
             position: fixed; 
@@ -106,7 +104,6 @@ $result = mysqli_query($conn, $query);
         </div>
     </div>
 
-    <!-- Modal -->
     <div id="itemModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
@@ -116,7 +113,6 @@ $result = mysqli_query($conn, $query);
             <div class="modal-details">
                 <div class="detail-box">
                     <p style="margin: 0;" id="modalDesc">
-                        <!-- Description populated by JS -->
                     </p>
                 </div>
                 
@@ -145,10 +141,8 @@ $result = mysqli_query($conn, $query);
             document.getElementById('modalTitle').innerText = item.item_name;
             document.getElementById('modalImg').src = item.image ? 'uploads/' + item.image : 'https://placehold.co/150x150?text=No+Image';
             
-            // Format simple description list
             document.getElementById('modalDesc').innerText = item.description;
             
-            // Format Date dd/mm/yyyy
             if (item.found_date) {
                 let parts = item.found_date.split('-');
                 let formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
@@ -157,7 +151,7 @@ $result = mysqli_query($conn, $query);
                 document.getElementById('modalDate').innerText = '-';
             }
             document.getElementById('modalLocation').innerText = item.location;
-            document.getElementById('modalReporter').innerText = item.pelapor_name; // Need join for this
+            document.getElementById('modalReporter').innerText = item.pelapor_name;
             document.getElementById('modalContact').innerText = item.contact_phone;
         }
 
@@ -165,7 +159,6 @@ $result = mysqli_query($conn, $query);
             document.getElementById('itemModal').style.display = 'none';
         }
 
-        // Close modal when clicking outside
         window.onclick = function(event) {
             let modal = document.getElementById('itemModal');
             if (event.target == modal) {

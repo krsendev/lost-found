@@ -4,7 +4,7 @@ function load(type, el) {
         .then(data => {
             el.innerHTML = '';
             data.forEach(p => {
-            el.innerHTML += `
+                el.innerHTML += `
                 <div class="card">
                     <b>${p.nama_barang}</b>
                     <span class="badge ${type}">${type}</span>
@@ -13,8 +13,8 @@ function load(type, el) {
                     ${p.foto ? `<br><img src="uploads/${p.foto}">` : ''}
                 </div>
             `;
+            });
         });
-    });
 }
 
 load('temuan', document.getElementById('temuan'));

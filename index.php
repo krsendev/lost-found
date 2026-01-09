@@ -1,6 +1,5 @@
 <?php
 session_start();
-// Check if user is logged in
 if (!isset($_SESSION['user'])) {
     header("Location: login.php");
     exit;
@@ -40,10 +39,7 @@ if (!isset($_SESSION['user'])) {
     </header>
 
     <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        
-        <!-- Profile Section in Sidebar can be added here if needed -->
-        
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> 
         <a href="index.php">Beranda</a>
         <a href="gallery.php">Galeri Temuan</a>
         <a href="lost_items.php">Laporan Kehilangan</a>
@@ -51,19 +47,15 @@ if (!isset($_SESSION['user'])) {
         <a href="process/auth.php?action=logout" style="color: #ff6b6b;">Logout</a>
     </div>
 
-    <!-- Main Content -->
     <div id="main">
         
-        <!-- Hero Section -->
         <div class="hero">
-            <!-- Placeholder for building image -->
             <div style="width: 100%; height: 200px; background: url('assets/images/gambar-beranda.png') no-repeat center center; background-size: cover;"></div>
             <!-- <div class="hero-text">
                 KEHILANGAN BARANG &<br>PENEMUAN BARANG
             </div> -->
         </div>
 
-        <!-- Procedure: Kehilangan Barang -->
         <div class="procedure-card">
             <div class="procedure-title">Prosedur Operasional<br>KEHILANGAN BARANG</div>
             <p style="font-size: 0.9rem; margin-bottom: 10px;">
@@ -77,7 +69,6 @@ if (!isset($_SESSION['user'])) {
             </ol>
         </div>
 
-        <!-- Procedure: Penemuan Barang -->
         <div class="procedure-card">
             <div class="procedure-title">Prosedur Operasional<br>PENEMUAN BARANG</div>
             <p style="font-size: 0.9rem; margin-bottom: 10px;">
