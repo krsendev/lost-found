@@ -105,14 +105,14 @@ $user = $_SESSION['user'];
                         <?php foreach($lostItems as $row): ?>
                             <div class="post-card">
                                 <div class="post-info">
-                                    <h4>
-                                        <?= htmlspecialchars($row['item_name']) ?> 
+                                    <h4 style="margin-bottom: 5px;"><?= htmlspecialchars($row['item_name']) ?></h4>
+                                    <div style="margin-bottom: 5px;">
                                         <?php if($row['status'] == 'claimed'): ?>
                                             <span class="badge" style="background: #2ecc71; color: white;">Sudah Ditemukan</span>
                                         <?php else: ?>
                                             <span class="badge" style="background: #e74c3c; color: white;">Belum Ditemukan</span>
                                         <?php endif; ?>
-                                    </h4>
+                                    </div>
                                     <p><?= date('d M Y', strtotime($row['created_at'])) ?> - <?= htmlspecialchars($row['location']) ?></p>
                                 </div>
                                 
@@ -139,14 +139,14 @@ $user = $_SESSION['user'];
                         <?php foreach($foundItems as $row): ?>
                             <div class="post-card">
                                 <div class="post-info">
-                                    <h4>
-                                        <?= htmlspecialchars($row['item_name']) ?> 
+                                    <h4 style="margin-bottom: 5px;"><?= htmlspecialchars($row['item_name']) ?></h4>
+                                    <div style="margin-bottom: 5px;">
                                         <?php if($row['status'] == 'claimed'): ?>
                                             <span class="badge" style="background: #2ecc71; color: white;">Sudah Ditemukan</span>
                                         <?php else: ?>
                                             <span class="badge" style="background: #e74c3c; color: white;">Belum Ditemukan</span>
                                         <?php endif; ?>
-                                    </h4>
+                                    </div>
                                     <p><?= date('d M Y', strtotime($row['created_at'])) ?> - <?= htmlspecialchars($row['location']) ?></p>
                                 </div>
                                 
