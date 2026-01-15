@@ -83,22 +83,30 @@ $user = $_SESSION['user'];
                 </a>
             
                 <div class="post-history">
-                    <h3>Riwayat Postingan</h3>
                     <?php
                     $uid = $user['id'];
                     $query = "SELECT * FROM items WHERE user_id = '$uid' ORDER BY created_at DESC";
                     $result = mysqli_query($conn, $query);
                     
-                    if (mysqli_num_rows($result) > 0) {
-                        while($row = mysqli_fetch_assoc($result)) {
-                            $typeClass = ($row['type'] == 'lost') ? 'badge-lost' : 'badge-found';
-                            $typeLabel = ($row['type'] == 'lost') ? 'Kehilangan' : 'Ditemukan';
-                            ?>
+                    $lostItems = [];
+                    $foundItems = [];
+                    
+                    while($row = mysqli_fetch_assoc($result)) {
+                        if($row['type'] == 'lost') {
+                            $lostItems[] = $row;
+                        } else {
+                            $foundItems[] = $row;
+                        }
+                    }
+                    ?>
+
+                    <h3 style="border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">Riwayat Barang Hilang</h3>
+                    <?php if (count($lostItems) > 0): ?>
+                        <?php foreach($lostItems as $row): ?>
                             <div class="post-card">
                                 <div class="post-info">
                                     <h4>
                                         <?= htmlspecialchars($row['item_name']) ?> 
-                                        <span class="badge <?= $typeClass ?>"><?= $typeLabel ?></span>
                                         <?php if($row['status'] == 'claimed'): ?>
                                             <span class="badge" style="background: #2ecc71; color: white;">Sudah Ditemukan</span>
                                         <?php else: ?>
@@ -121,12 +129,44 @@ $user = $_SESSION['user'];
                                     </button>
                                 <?php endif; ?>
                             </div>
-                            <?php
-                        }
-                    } else {
-                        echo "<p style='color: #999; text-align: center;'>Belum ada postingan.</p>";
-                    }
-                    ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p style="color: #999; text-align: center; margin-bottom: 30px;">Belum ada laporan kehilangan.</p>
+                    <?php endif; ?>
+
+                    <h3 style="border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; margin-top: 40px;">Riwayat Penemuan Barang</h3>
+                    <?php if (count($foundItems) > 0): ?>
+                        <?php foreach($foundItems as $row): ?>
+                            <div class="post-card">
+                                <div class="post-info">
+                                    <h4>
+                                        <?= htmlspecialchars($row['item_name']) ?> 
+                                        <?php if($row['status'] == 'claimed'): ?>
+                                            <span class="badge" style="background: #2ecc71; color: white;">Sudah Ditemukan</span>
+                                        <?php else: ?>
+                                            <span class="badge" style="background: #e74c3c; color: white;">Belum Ditemukan</span>
+                                        <?php endif; ?>
+                                    </h4>
+                                    <p><?= date('d M Y', strtotime($row['created_at'])) ?> - <?= htmlspecialchars($row['location']) ?></p>
+                                </div>
+                                
+                                <?php if($row['status'] == 'available'): ?>
+                                    <a href="process/update_status.php?id=<?= $row['id'] ?>&action=mark_found" 
+                                       class="btn-primary" 
+                                       style="background: #2ecc71; color: white; text-decoration: none; padding: 5px 15px; border-radius: 5px; font-size: 14px;"
+                                       onclick="return confirm('Apakah barang ini benar-benar sudah ditemukan? Postingan akan disembunyikan dari halaman publik.')">
+                                       Tandai Sudah Ditemukan
+                                    </a>
+                                <?php else: ?>
+                                    <button disabled style="background: #ccc; color: #666; border: none; padding: 5px 15px; border-radius: 5px; font-size: 14px; cursor: not-allowed;">
+                                        Selesai
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p style="color: #999; text-align: center;">Belum ada laporan penemuan.</p>
+                    <?php endif; ?>
                 </div>
 
             </div>
