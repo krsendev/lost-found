@@ -25,10 +25,10 @@ if (!isset($_SESSION['user'])) {
         </div>
 
         <nav class="desktop-nav">
-             <a href="index.php" class="active">Beranda</a>
-             <a href="gallery.php">Galeri Temuan</a>
-             <a href="lost_items.php">Laporan Kehilangan</a>
-             <a href="form_selection.php">Formulir</a>
+            <a href="index.php" class="active">Beranda</a>
+            <a href="gallery.php">Galeri Temuan</a>
+            <a href="lost_items.php">Laporan Kehilangan</a>
+            <a href="form_selection.php">Formulir</a>
         </nav>
 
         <div class="header-icons">

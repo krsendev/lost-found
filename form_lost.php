@@ -23,10 +23,10 @@ if (!isset($_SESSION['user'])) { header("Location: login.php"); exit; }
         </div>
 
         <nav class="desktop-nav">
-             <a href="index.php">Beranda</a>
-             <a href="gallery.php">Galeri Temuan</a>
-             <a href="lost_items.php">Laporan Kehilangan</a>
-             <a href="form_selection.php" class="active">Formulir</a>
+            <a href="index.php">Beranda</a>
+            <a href="gallery.php">Galeri Temuan</a>
+            <a href="lost_items.php">Laporan Kehilangan</a>
+            <a href="form_selection.php" class="active">Formulir</a>
         </nav>
 
         <div class="header-icons">
@@ -70,12 +70,11 @@ if (!isset($_SESSION['user'])) { header("Location: login.php"); exit; }
                     <input type="text" name="location" placeholder="Lokasi" required>
                 </div>
                 
-                 <div class="form-group">
+                <div class="form-group">
                     <label>Nomor Telepon yang Dapat Dihubungi</label>
                     <input type="text" name="phone" placeholder="08xxxxx" required>
                 </div>
                 
-                 <!-- Optional: Upload Image for Lost Item (e.g. old photo) -->
                 <div class="form-group">
                     <label>Foto Barang (Jika ada)</label>
                     <input type="file" name="image" accept="image/*">

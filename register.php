@@ -19,7 +19,7 @@ if (isset($_SESSION['user'])) {
     <div class="auth-container" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
         
         <div style="margin-bottom: 30px;">
-             <img src="assets/images/logo-umsida.png" alt="UMSIDA Logo" style="max-width: 250px; display: block;">
+            <img src="assets/images/logo-umsida.png" alt="UMSIDA Logo" style="max-width: 250px; display: block;">
         </div>
 
         <div class="auth-card">

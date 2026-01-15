@@ -23,10 +23,10 @@ if (!isset($_SESSION['user'])) { header("Location: login.php"); exit; }
         </div>
 
         <nav class="desktop-nav">
-             <a href="index.php">Beranda</a>
-             <a href="gallery.php">Galeri Temuan</a>
-             <a href="lost_items.php">Laporan Kehilangan</a>
-             <a href="form_selection.php" class="active">Formulir</a>
+            <a href="index.php">Beranda</a>
+            <a href="gallery.php">Galeri Temuan</a>
+            <a href="lost_items.php">Laporan Kehilangan</a>
+            <a href="form_selection.php" class="active">Formulir</a>
         </nav>
 
         <div class="header-icons">

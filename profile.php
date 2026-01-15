@@ -37,14 +37,14 @@ $user = $_SESSION['user'];
         </div>
 
         <nav class="desktop-nav">
-             <a href="index.php">Beranda</a>
-             <a href="gallery.php">Galeri Temuan</a>
-             <a href="lost_items.php">Laporan Kehilangan</a>
-             <a href="form_selection.php">Formulir</a>
+            <a href="index.php">Beranda</a>
+            <a href="gallery.php">Galeri Temuan</a>
+            <a href="lost_items.php">Laporan Kehilangan</a>
+            <a href="form_selection.php">Formulir</a>
         </nav>
 
         <div class="header-icons">
-             <a href="profile.php" style="text-decoration: none; color: white;">
+            <a href="profile.php" style="text-decoration: none; color: white;">
                 <span style="font-size: 24px;"><i class="fa fa-user" aria-hidden="true" style="color: white;"></i></span>
             </a>
         </div>
@@ -96,10 +96,30 @@ $user = $_SESSION['user'];
                             ?>
                             <div class="post-card">
                                 <div class="post-info">
-                                    <h4><?= htmlspecialchars($row['item_name']) ?> <span class="badge <?= $typeClass ?>"><?= $typeLabel ?></span></h4>
+                                    <h4>
+                                        <?= htmlspecialchars($row['item_name']) ?> 
+                                        <span class="badge <?= $typeClass ?>"><?= $typeLabel ?></span>
+                                        <?php if($row['status'] == 'claimed'): ?>
+                                            <span class="badge" style="background: #2ecc71; color: white;">Sudah Ditemukan</span>
+                                        <?php else: ?>
+                                            <span class="badge" style="background: #e74c3c; color: white;">Belum Ditemukan</span>
+                                        <?php endif; ?>
+                                    </h4>
                                     <p><?= date('d M Y', strtotime($row['created_at'])) ?> - <?= htmlspecialchars($row['location']) ?></p>
                                 </div>
-                                <a href="process/delete_post.php?id=<?= $row['id'] ?>" class="btn-delete" onclick="return confirm('Yakin ingin menghapus postingan ini?')">Hapus</a>
+                                
+                                <?php if($row['status'] == 'available'): ?>
+                                    <a href="process/update_status.php?id=<?= $row['id'] ?>&action=mark_found" 
+                                       class="btn-primary" 
+                                       style="background: #2ecc71; color: white; text-decoration: none; padding: 5px 15px; border-radius: 5px; font-size: 14px;"
+                                       onclick="return confirm('Apakah barang ini benar-benar sudah ditemukan? Postingan akan disembunyikan dari halaman publik.')">
+                                       Tandai Sudah Ditemukan
+                                    </a>
+                                <?php else: ?>
+                                    <button disabled style="background: #ccc; color: #666; border: none; padding: 5px 15px; border-radius: 5px; font-size: 14px; cursor: not-allowed;">
+                                        Selesai
+                                    </button>
+                                <?php endif; ?>
                             </div>
                             <?php
                         }

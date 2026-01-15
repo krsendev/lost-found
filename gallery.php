@@ -3,7 +3,7 @@ session_start();
 require 'config/db.php';
 if (!isset($_SESSION['user'])) { header("Location: login.php"); exit; }
 
-$query = "SELECT items.*, users.name as pelapor_name FROM items JOIN users ON items.user_id = users.id WHERE type='found' ORDER BY created_at DESC";
+$query = "SELECT items.*, users.name as pelapor_name FROM items JOIN users ON items.user_id = users.id WHERE type='found' AND status='available' ORDER BY created_at DESC";
 $result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
@@ -68,10 +68,10 @@ $result = mysqli_query($conn, $query);
         </div>
 
         <nav class="desktop-nav">
-             <a href="index.php">Beranda</a>
-             <a href="gallery.php" class="active">Galeri Temuan</a>
-             <a href="lost_items.php">Laporan Kehilangan</a>
-             <a href="form_selection.php">Formulir</a>
+            <a href="index.php">Beranda</a>
+            <a href="gallery.php" class="active">Galeri Temuan</a>
+            <a href="lost_items.php">Laporan Kehilangan</a>
+            <a href="form_selection.php">Formulir</a>
         </nav>
 
         <div class="header-icons">
@@ -97,7 +97,8 @@ $result = mysqli_query($conn, $query);
                     <img src="<?= $item['image'] ? 'uploads/'.$item['image'] : 'https://placehold.co/150x150?text=No+Image' ?>" alt="<?= htmlspecialchars($item['item_name']) ?>">
                     <div class="item-info">
                         <b><?= htmlspecialchars($item['item_name']) ?></b><br>
-                        <small style="color: #666;"><?= htmlspecialchars($item['location']) ?></small>
+                        <small style="color: #666;"><?= htmlspecialchars($item['location']) ?></small><br>
+                        <span style="display: inline-block; background-color: #e74c3c; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-top: 3px;">Belum Ditemukan</span>
                     </div>
                 </div>
             <?php endwhile; ?>

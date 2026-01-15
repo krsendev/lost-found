@@ -35,12 +35,12 @@ if (isset($_SESSION['user'])) {
                 
                 <div class="form-group" style="margin-bottom: 15px;">
                     <input type="email" name="email" placeholder="Email" required 
-                           style="background-color: #dcdcdc; color: #555; text-align: center; border-radius: 25px;">
+                        style="background-color: #dcdcdc; color: #555; text-align: center; border-radius: 25px;">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 15px;">
                     <input type="text" name="nim" placeholder="NIM" required 
-                           style="background-color: #dcdcdc; color: #555; text-align: center; border-radius: 25px;">
+                        style="background-color: #dcdcdc; color: #555; text-align: center; border-radius: 25px;">
                 </div>
 
                 <p style="font-size: 12px; margin-bottom: 20px; color: #333;">

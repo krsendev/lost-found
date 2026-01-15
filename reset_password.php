@@ -26,7 +26,7 @@ if (!isset($_SESSION['reset_verified']) || !$_SESSION['reset_verified']) {
                 <input type="password" name="password" placeholder="Password Baru" required>
             </div>
 
-             <div class="form-group">
+            <div class="form-group">
                 <input type="password" name="confirm_password" placeholder="Konfirmasi Password" required>
             </div>
 

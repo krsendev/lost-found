@@ -3,7 +3,7 @@ session_start();
 require 'config/db.php';
 if (!isset($_SESSION['user'])) { header("Location: login.php"); exit; }
 
-$query = "SELECT items.*, users.name as pelapor_name FROM items JOIN users ON items.user_id = users.id WHERE type='lost' ORDER BY created_at DESC";
+$query = "SELECT items.*, users.name as pelapor_name FROM items JOIN users ON items.user_id = users.id WHERE type='lost' AND status='available' ORDER BY created_at DESC";
 $result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
@@ -27,10 +27,10 @@ $result = mysqli_query($conn, $query);
         </div>
 
         <nav class="desktop-nav">
-             <a href="index.php">Beranda</a>
-             <a href="gallery.php">Galeri Temuan</a>
-             <a href="lost_items.php" class="active">Laporan Kehilangan</a>
-             <a href="form_selection.php">Formulir</a>
+            <a href="index.php">Beranda</a>
+            <a href="gallery.php">Galeri Temuan</a>
+            <a href="lost_items.php" class="active">Laporan Kehilangan</a>
+            <a href="form_selection.php">Formulir</a>
         </nav>
 
         <div class="header-icons">
@@ -74,7 +74,11 @@ $result = mysqli_query($conn, $query);
             <?php while($item = mysqli_fetch_assoc($result)): ?>
                 <div style="background-color: #0c2e59; color: white; border-radius: 15px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); position: relative;">
                     
-                    <h3 style="text-align: center; margin-bottom: 20px; font-weight: bold; font-size: 1.3rem;">Laporan <?= ucfirst($item['type'] == 'found' ? 'Penemuan' : 'Kehilangan') ?> <?= htmlspecialchars($item['item_name']) ?></h3>
+                    <h3 style="text-align: center; margin-bottom: 20px; font-weight: bold; font-size: 1.3rem;">
+                        Laporan <?= ucfirst($item['type'] == 'found' ? 'Penemuan' : 'Kehilangan') ?> <?= htmlspecialchars($item['item_name']) ?>
+                        <br>
+                        <span style="display: inline-block; background-color: #e74c3c; color: white; font-size: 0.8rem; padding: 3px 8px; border-radius: 5px; margin-top: 5px;">Belum Ditemukan</span>
+                    </h3>
                     
                     <div style="font-size: 0.95rem; line-height: 1.8; text-align: left;">
                         <div>

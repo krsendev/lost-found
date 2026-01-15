@@ -31,7 +31,7 @@ if ($action === 'register') {
     $otp_code = sprintf("%06d", mt_rand(1, 999999));
     
     $query = "INSERT INTO users (name, email, nim, password, otp_code, otp_expiry, is_verified) 
-              VALUES ('$nama', '$email', '$nim', '$hashed_password', '$otp_code', DATE_ADD(NOW(), INTERVAL 15 MINUTE), 0)";
+            VALUES ('$nama', '$email', '$nim', '$hashed_password', '$otp_code', DATE_ADD(NOW(), INTERVAL 15 MINUTE), 0)";
     
     if (mysqli_query($conn, $query)) {
         $subject = "Kode Verifikasi Registrasi - Lost & Found";
@@ -60,8 +60,8 @@ if ($action === 'register') {
         if (password_verify($password, $user['password'])) {
             
             if ($user['is_verified'] == 0) {
-                 echo "<script>alert('Akun belum diverifikasi! Silakan cek email Anda atau login ulang untuk minta OTP baru.'); window.location='../login.php';</script>";
-                 exit;
+                echo "<script>alert('Akun belum diverifikasi! Silakan cek email Anda atau login ulang untuk minta OTP baru.'); window.location='../login.php';</script>";
+                exit;
             }
 
             $_SESSION['user'] = [
@@ -99,11 +99,11 @@ if ($action === 'register') {
         $message = "Halo " . $user['name'] . ",<br><br>Kode verifikasi (OTP) untuk reset password adalah: <b>$otp_code</b>.<br>Kode ini berlaku selama 15 menit.";
         
         if (sendOTP($email, $subject, $message)) {
-             $_SESSION['pending_email'] = $email;
-             $_SESSION['is_reset_flow'] = true;
-             echo "<script>alert('Kode OTP telah dikirim ke email Anda.'); window.location='../otp_verification.php';</script>";
+            $_SESSION['pending_email'] = $email;
+            $_SESSION['is_reset_flow'] = true;
+            echo "<script>alert('Kode OTP telah dikirim ke email Anda.'); window.location='../otp_verification.php';</script>";
         } else {
-             echo "<script>alert('Gagal mengirim OTP.'); window.location='../forgot_password.php';</script>";
+            echo "<script>alert('Gagal mengirim OTP.'); window.location='../forgot_password.php';</script>";
         }
 
     } else {
@@ -164,7 +164,7 @@ if ($action === 'register') {
         unset($_SESSION['reset_verified']);
         echo "<script>alert('Password berhasil diubah, silakan login.'); window.location='../login.php';</script>";
     } else {
-         echo "<script>alert('Gagal mengubah password.'); window.location='../reset_password.php';</script>";
+        echo "<script>alert('Gagal mengubah password.'); window.location='../reset_password.php';</script>";
     }
 
 } elseif ($action === 'logout') {

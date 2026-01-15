@@ -39,14 +39,14 @@ if (!isset($_FILES['image'])) {
         $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         
         if (in_array($file_extension, $allowed)) {
-             $new_filename = uniqid() . '.' . $file_extension;
-             $target_file = $target_dir . $new_filename;
-             
-             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                 $image_path = $new_filename;
-             } else {
-                 die("ERROR UPLOAD: Gagal memindahkan file yang diupload. Periksa izin direktori 'uploads/'.");
-             }
+            $new_filename = uniqid() . '.' . $file_extension;
+            $target_file = $target_dir . $new_filename;
+            
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                $image_path = $new_filename;
+            } else {
+                die("ERROR UPLOAD: Gagal memindahkan file yang diupload. Periksa izin direktori 'uploads/'.");
+            }
         } else {
             die("ERROR VALIDASI: Format file tidak diizinkan. Hanya JPG, JPEG, PNG, GIF, WEBP.");
         }
@@ -66,7 +66,7 @@ if (!isset($_FILES['image'])) {
 }
 
 $query = "INSERT INTO items (user_id, item_name, description, location, found_date, contact_phone, image, type, status) 
-          VALUES ('$user_id', '$item_name', '$description', '$location', '$date', '$phone', " . ($image_path ? "'$image_path'" : "NULL") . ", '$type', 'available')";
+        VALUES ('$user_id', '$item_name', '$description', '$location', '$date', '$phone', " . ($image_path ? "'$image_path'" : "NULL") . ", '$type', 'available')";
 
 if (mysqli_query($conn, $query)) {
     echo "<script>alert('Laporan berhasil dikirim! " . $message . "'); window.location='../index.php';</script>";
